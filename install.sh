@@ -4,27 +4,29 @@ echo "=========================================="
 echo "    Starting Security Tools Installation    "
 echo "=========================================="
 
-# تحديث النظام وحزم التثبيت
-sudo apt update && sudo apt upgrade -y
+# Detect and use the available package manager
+if command -v apt &> /dev/null; then
+    echo "[+] Detected APT (Debian / Ubuntu / GCP CloudShell)"
+    sudo apt update && sudo apt upgrade -y
+    sudo apt install -y nmap gobuster tshark curl wget dnsutils whois net-tools git python3-pip
 
-# تثبيت الأدوات الأساسية والشبكات والحماية
-sudo apt install -y \
-    nmap \
-    gobuster \
-    tshark \
-    curl \
-    wget \
-    dnsutils \
-    whois \
-    net-tools \
-    git \
-    python3-pip
+elif command -v dnf &> /dev/null; then
+    echo "[+] Detected DNF (Fedora / RHEL / Amazon Linux / AWS CloudShell)"
+    sudo dnf install -y nmap gobuster tshark curl wget bind-utils whois net-tools git python3-pip
+
+elif command -v yum &> /dev/null; then
+    echo "[+] Detected YUM (Older RedHat / CentOS)"
+    sudo yum install -y nmap gobuster tshark curl wget bind-utils whois net-tools git python3-pip
+
+else
+    echo "[!] Warning: No supported package manager (apt, dnf, yum) found. Skipping package installation."
+fi
 
 echo "=========================================="
 echo "    Creating Default Wordlist File...     "
 echo "=========================================="
 
-# إنشاء ملف الكلمات الموسع تلقائياً في نفس المجلد
+# Create the default wordlist in the current directory
 cat << 'EOF' > wordlist.txt
 admin
 administrator
