@@ -12,11 +12,16 @@ if command -v apt &> /dev/null; then
 
 elif command -v dnf &> /dev/null; then
     echo "[+] Detected DNF (Fedora / RHEL / Amazon Linux / AWS CloudShell)"
-    sudo dnf install -y nmap gobuster tshark curl wget bind-utils whois net-tools git python3-pip
+    sudo dnf install -y nmap curl wget bind-utils whois net-tools git python3-pip
+    
+    # Optional tools that might need EPEL or manual install on Amazon Linux
+    echo "[*] Attempting to install additional tools..."
+    sudo dnf install -y gobuster tshark 2>/dev/null || echo "[!] Notice: gobuster/tshark not found in standard DNF repos (skipping)."
 
 elif command -v yum &> /dev/null; then
     echo "[+] Detected YUM (Older RedHat / CentOS)"
-    sudo yum install -y nmap gobuster tshark curl wget bind-utils whois net-tools git python3-pip
+    sudo yum install -y nmap curl wget bind-utils whois net-tools git python3-pip
+    sudo yum install -y gobuster tshark 2>/dev/null || echo "[!] Notice: gobuster/tshark not found in standard YUM repos (skipping)."
 
 else
     echo "[!] Warning: No supported package manager (apt, dnf, yum) found. Skipping package installation."
