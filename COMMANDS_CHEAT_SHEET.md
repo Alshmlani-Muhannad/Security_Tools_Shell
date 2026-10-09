@@ -11,6 +11,9 @@ cheat
 ./auto_scan.sh -t example.com
 ./auto_scan.sh -t 8.8.8.8 --fast
 ./auto_scan.sh -t user@dom.com --json
+./auto_scan.sh --build-index   # dashboard: reports/index.html
+./auto_scan.sh -t example.com --no-html   # text only
+# serve reports: python3 -m http.server -d reports 8000
 ./install.sh --minimal
 ./install.sh --full
 ./setup_apis.sh

@@ -21,6 +21,10 @@ source ./shell_init.sh
 ./auto_scan.sh -t 8.8.8.8 --fast
 ./auto_scan.sh -t user@example.com --json
 ./auto_scan.sh -t 44d88612fea8a8f36de82e1278abb02f --no-apis
+./auto_scan.sh --build-index  # rebuild reports/index.html dashboard
+./auto_scan.sh -t example.com --no-html  # skip HTML report
+# Each scan writes reports/scan_<target>_<ts>/{summary.txt,report.html,raw files}
+# View: python3 -m http.server -d reports 8000  →  open index.html
 ./scan.sh example.com      # legacy alias → auto_scan.sh
 ```
 
